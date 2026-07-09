@@ -4,7 +4,9 @@ WORKDIR /app
 
 # Copy lock and package files first to leverage Docker layer caching
 COPY package.json bun.lock* ./
-RUN bun install
+COPY node_modules ./node_modules
+
+#RUN bun install
 
 # Stage 2: Production runner
 FROM oven/bun:1-alpine AS runner

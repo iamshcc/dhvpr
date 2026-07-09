@@ -2,8 +2,12 @@
 FROM oven/bun:1-alpine AS build-stage
 WORKDIR /app
 COPY package.json bun.lock* ./
-RUN bun install
+COPY node_modules ./node_modules
+
+#RUN bun install
+
 COPY . .
+
 RUN bun run build
 
 # Stage 2: Production server (served via a minimal Nginx runtime)
