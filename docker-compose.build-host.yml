@@ -1,0 +1,16 @@
+# Drop-in override for hosts where Docker container DNS is broken during builds.
+# On the remote Ubuntu server run:
+#   docker compose -f docker-compose.yaml -f docker-compose.build-host.yml up --build -d
+#
+# network: host uses the host's network stack during the image build, which
+# bypasses Docker bridge DNS resolution. This only works on Linux.
+services:
+  gateway:
+    build:
+      network: host
+  frontend:
+    build:
+      network: host
+  backend:
+    build:
+      network: host
