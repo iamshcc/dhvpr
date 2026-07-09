@@ -1,20 +1,14 @@
 name: zarzasr
 
 services:
-  # 1. Reverse Proxy Gateway
-  gateway:
-    build: ./nginx
-    ports:
-      - "8080:80"
-      - "8443:443"
-    depends_on:
-      - frontend
-      - backend
 
   # 2. Vue Frontend
   frontend:
     build: ./frontend
     restart: always
+    networks:
+      - default
+      - shared_net
 
   # 3. Bun + Hono Backend
   backend:
@@ -46,6 +40,11 @@ services:
     restart: always
     volumes:
       - redis_service_data:/data
+
+networks:
+  shared_net:
+    external: true
+    name: shared_gateway_net
 
 volumes:
   postgres_service_data:
