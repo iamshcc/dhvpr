@@ -7,6 +7,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - default
+      - shared_net
     depends_on:
       - frontend
       - backend
@@ -46,6 +49,11 @@ services:
     restart: always
     volumes:
       - redis_data:/data
+
+networks:
+  shared_net:
+    external: true
+    name: shared_gateway_net
 
 volumes:
   postgres_data:
