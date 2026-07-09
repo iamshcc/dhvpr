@@ -1,12 +1,12 @@
-name: zarzapp
+name: zarzasr
 
 services:
   # 1. Reverse Proxy Gateway
   gateway:
     build: ./nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     depends_on:
       - frontend
       - backend
@@ -36,17 +36,17 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_service_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432" # Optional: map to host if you want to use local DB GUIs
+      - "5433:5432" # Optional: map to host if you want to use local DB GUIs
 
   # 5. Redis Cache
   redis:
     image: redis:7-alpine
     restart: always
     volumes:
-      - redis_data:/data
+      - redis_service_data:/data
 
 volumes:
-  postgres_data:
-  redis_data:
+  postgres_service_data:
+  redis_service_data:
