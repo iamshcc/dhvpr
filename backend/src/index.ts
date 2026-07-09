@@ -4,9 +4,7 @@ const app = new Hono();
 
 app.get("/health", (c) => {
   return c.json({
-    status: "ok",
-    runtime: "Bun",
-    framework: "Hono",
+    message: "The Service is running."
   });
 });
 
