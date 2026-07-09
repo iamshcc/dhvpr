@@ -2,7 +2,7 @@
 FROM oven/bun:1-alpine AS build-stage
 WORKDIR /app
 COPY package.json bun.lock* ./
-RUN bun install --registry https://registry.npmmirror.com
+RUN bun install
 COPY . .
 RUN bun run build
 
