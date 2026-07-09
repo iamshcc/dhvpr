@@ -1,10 +1,11 @@
 # Stage 1: Build Vue application
 FROM oven/bun:1-alpine AS build-stage
 WORKDIR /app
-COPY package.json bun.lock* ./
-COPY node_modules ./node_modules
 
-#RUN bun install
+COPY package.json bun.lock* ./
+# COPY node_modules ./node_modules
+
+RUN bun install
 
 COPY . .
 
