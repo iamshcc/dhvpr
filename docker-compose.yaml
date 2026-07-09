@@ -1,0 +1,51 @@
+name: zarzapp
+
+services:
+  # 1. Reverse Proxy Gateway
+  gateway:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+
+  # 2. Vue Frontend
+  frontend:
+    build: ./frontend
+    restart: always
+
+  # 3. Bun + Hono Backend
+  backend:
+    build: ./backend
+    restart: always
+    environment:
+      - DATABASE_URL=postgres://user:password@postgres:5432/mydb
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  # 4. Postgres Database
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Optional: map to host if you want to use local DB GUIs
+
+  # 5. Redis Cache
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
